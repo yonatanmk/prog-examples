@@ -1,0 +1,53 @@
+Using Props to set component level state
+
+https://reactjs.org/docs/react-component.html#static-getderivedstatefromprops
+
+__________________________________________________________________________________________________________________________________________________________________________________________
+state = {
+  fields: {
+     userName: '',
+     email: '',
+  },
+  // other form meta
+  submitting: false,
+  errors: {},
+}
+
+static getDerivedStateFromProps(props) {
+  if (props.loading) {  // if you need to wait for something to load
+    return null;
+  }
+  return {
+    fields: {
+       userName: props.userName,
+       email: props.email,
+       // etc
+    }
+  }
+}
+__________________________________________________________________________________________________________________________________________________________________________________________
+state = {
+  fields: {
+     userName: '',
+     email: '',
+  },
+  // other form meta
+  submitting: false,
+  errors: {},
+}
+
+ initialize(initialState) {
+   this.setState({ fields: initialState });
+ }
+
+ componentDidMount() {
+    if (!this.props.loading) { // if you need to wait for something to load
+      this.initialize(this.props.userFields);
+    }
+ }
+
+ componentDidUpdate(prevProps) {
+    if (prevProps.loading && !this.props.loading) { // if you need to wait for something to load
+      this.initialize(this.props.userFields);
+    }
+ }
